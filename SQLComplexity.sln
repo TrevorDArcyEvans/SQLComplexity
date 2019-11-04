@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLComplexity", "SQLComplexity\SQLComplexity.csproj", "{D40DE9CE-D710-4378-BEAE-66940F4A4B6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLParser", "SQLParser\SQLParser\SQLParser.csproj", "{EA16448B-0E51-4280-B705-990A46E48389}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D40DE9CE-D710-4378-BEAE-66940F4A4B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D40DE9CE-D710-4378-BEAE-66940F4A4B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D40DE9CE-D710-4378-BEAE-66940F4A4B6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D40DE9CE-D710-4378-BEAE-66940F4A4B6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA16448B-0E51-4280-B705-990A46E48389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA16448B-0E51-4280-B705-990A46E48389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA16448B-0E51-4280-B705-990A46E48389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA16448B-0E51-4280-B705-990A46E48389}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

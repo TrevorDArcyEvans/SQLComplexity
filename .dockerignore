@@ -1,0 +1,8 @@
+.git
+.vscode
+.idea
+**/bin/
+**/obj/
+**/out/
+CoverageReport/
+TestReport/

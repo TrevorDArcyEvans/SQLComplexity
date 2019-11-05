@@ -50,9 +50,9 @@ namespace SQLComplexity
     {
       var newDepth = (node as RuleContext)?.Depth() ?? depth + 1;
       var padding = new string(' ', newDepth);
-      if (node is TerminalNodeImpl)
+//      if (node is TerminalNodeImpl)
       {
-        Console.WriteLine($"{padding} [{newDepth}] {node}");
+        Console.WriteLine($"{padding} [{newDepth}@{node.GetType().Name}] {node}");
       }
 
       maxDepth = Math.Max(newDepth, maxDepth);

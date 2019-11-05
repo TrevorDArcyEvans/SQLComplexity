@@ -18,6 +18,8 @@ namespace SQLComplexity
         return;
       }
 
+      Console.WriteLine($"Analysing [{args[0]}] ...");
+
       var sw = Stopwatch.StartNew();
       var sql = File.ReadAllText(args[0]);
       var listener = new TSqlParserListener();
@@ -37,7 +39,11 @@ namespace SQLComplexity
 
     // RuleContext : IParseTree, ISyntaxTree, ITree
     // TerminalNodeImpl : IParseTree, ISyntaxTree, ITree
-    private static void Dump(int depth, ref int maxDepth, ref int length, IParseTree node)
+    private static void Dump(
+      int depth,
+      ref int maxDepth,
+      ref int length,
+      IParseTree node)
     {
       var newDepth = (node as RuleContext)?.Depth() ?? depth + 1;
       var padding = new string(' ', newDepth);

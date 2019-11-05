@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Antlr4.Runtime;
@@ -32,7 +33,8 @@ namespace SQLComplexity
       var startNode = listener.EnterContext;
       var maxDepth = 0;
       var length = 0;
-      Dump(startNode.Depth(), ref maxDepth, ref length, startNode);
+      var leafNodes = new List<IParseTree>();
+      Dump(startNode.Depth(), ref maxDepth, ref length, leafNodes, startNode);
       Console.WriteLine();
 
       Console.WriteLine($"Analysed [{args[0]}] in {sw.ElapsedMilliseconds} ms");
@@ -42,10 +44,10 @@ namespace SQLComplexity
 
     // RuleContext : IParseTree, ISyntaxTree, ITree
     // TerminalNodeImpl : IParseTree, ISyntaxTree, ITree
-    private static void Dump(
-      int depth,
+    private static void Dump(int depth,
       ref int maxDepth,
       ref int length,
+      List<IParseTree> leafNodes,
       IParseTree node)
     {
       var newDepth = (node as RuleContext)?.Depth() ?? depth + 1;
@@ -57,10 +59,15 @@ namespace SQLComplexity
 
       maxDepth = Math.Max(newDepth, maxDepth);
       length++;
+      if (node.ChildCount == 0)
+      {
+        leafNodes.Add(node);
+      }
+
       for (var i = 0; i < node.ChildCount; i++)
       {
         var child = node.GetChild(i);
-        Dump(newDepth, ref maxDepth, ref length, child);
+        Dump(newDepth, ref maxDepth, ref length, leafNodes, child);
       }
     }
 

@@ -26,6 +26,9 @@ namespace SQLComplexity
       Parser.Parse(sql, listener, SQLType.TSql);
 
       // TODO    calculate complexity
+      //  TODO    Calculate graph density:
+      //    https://en.wikipedia.org/wiki/Dense_graph
+      //    https://www.quora.com/How-do-you-compute-the-density-of-a-weighted-graph
       var startNode = listener.EnterContext;
       var maxDepth = 0;
       var length = 0;

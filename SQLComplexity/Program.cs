@@ -37,18 +37,7 @@ namespace SQLComplexity
       Console.WriteLine();
 
       var leafNodes = allNodes.Where(x => x.ChildCount == 0);
-      var allDepths = leafNodes.Select(leafNode =>
-      {
-        var depth = 0;
-        var currNode = leafNode;
-        while (currNode != null)
-        {
-          depth++;
-          currNode = currNode.Parent;
-        }
-
-        return depth;
-      });
+      var allDepths = leafNodes.Select(x => x.GetDepth());
       var length = allDepths.Sum();
 
       Console.WriteLine($"Analysed [{args[0]}] in {sw.ElapsedMilliseconds} ms");

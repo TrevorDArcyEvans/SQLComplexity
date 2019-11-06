@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
-using Gma.DataStructures;
-using SQLParser.Enums;
-using Parser = SQLParser.Parser;
 
 namespace SQLComplexity
 {
@@ -25,18 +20,8 @@ namespace SQLComplexity
 
       var sw = Stopwatch.StartNew();
       var sql = File.ReadAllText(args[0]);
-      var listener = new TSqlParserListener();
-      Parser.Parse(sql, listener, SQLType.TSql);
-
-      // TODO    calculate complexity
-      //  TODO    Calculate graph density:
-      //    https://en.wikipedia.org/wiki/Dense_graph
-      //    https://www.quora.com/How-do-you-compute-the-density-of-a-weighted-graph
-      var startNode = listener.EnterContext;
-      var allNodes = new OrderedSet<IParseTree>();
-      Analyse(startNode, allNodes);
-      Console.WriteLine();
-
+      var analyser = new Analyser(sql);
+      var allNodes = analyser.Analyse();
       var leafNodes = allNodes.Where(x => x.ChildCount == 0);
       var allDepths = leafNodes.Select(x => x.GetDepth());
       var length = allDepths.Sum();
@@ -53,24 +38,6 @@ namespace SQLComplexity
       Console.WriteLine($"  Height     = {allNodes.Count}");
       Console.WriteLine($"  Leaves     = {leafNodes.Count()}");
       Console.WriteLine($"  Length     = {length}");
-    }
-
-    // RuleContext : IParseTree, ISyntaxTree, ITree
-    // TerminalNodeImpl : IParseTree, ISyntaxTree, ITree
-    private static void Analyse(
-      IParseTree node,
-      ICollection<IParseTree> allNodes)
-    {
-      if (!allNodes.Contains(node))
-      {
-        allNodes.Add(node);
-      }
-
-      for (var i = 0; i < node.ChildCount; i++)
-      {
-        var child = node.GetChild(i);
-        Analyse(child, allNodes);
-      }
     }
 
     private static void Usage()

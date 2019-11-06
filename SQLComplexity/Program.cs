@@ -34,7 +34,7 @@ namespace SQLComplexity
       //    https://www.quora.com/How-do-you-compute-the-density-of-a-weighted-graph
       var startNode = listener.EnterContext;
       var allNodes = new OrderedSet<IParseTree>();
-      Dump(allNodes, startNode);
+      Analyse(startNode, allNodes);
       Console.WriteLine();
 
       var leafNodes = allNodes.Where(x => x.ChildCount == 0);
@@ -51,15 +51,15 @@ namespace SQLComplexity
       Console.WriteLine($"Analysed [{args[0]}] in {sw.ElapsedMilliseconds} ms");
       Console.WriteLine($"  MaxDepth   = {allDepths.Max()}");
       Console.WriteLine($"  Height     = {allNodes.Count}");
-      Console.WriteLine($"  Length     = {length}");
       Console.WriteLine($"  Leaves     = {leafNodes.Count()}");
+      Console.WriteLine($"  Length     = {length}");
     }
 
     // RuleContext : IParseTree, ISyntaxTree, ITree
     // TerminalNodeImpl : IParseTree, ISyntaxTree, ITree
-    private static void Dump(
-      ICollection<IParseTree> allNodes,
-      IParseTree node)
+    private static void Analyse(
+      IParseTree node,
+      ICollection<IParseTree> allNodes)
     {
       if (!allNodes.Contains(node))
       {
@@ -69,7 +69,7 @@ namespace SQLComplexity
       for (var i = 0; i < node.ChildCount; i++)
       {
         var child = node.GetChild(i);
-        Dump(allNodes, child);
+        Analyse(child, allNodes);
       }
     }
 

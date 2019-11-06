@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Antlr4.Runtime.Tree;
 using Gma.DataStructures;
 using SQLParser;
@@ -8,6 +9,18 @@ namespace SQLComplexity
 {
   public sealed class Analyser
   {
+    public IEnumerable<IParseTree> AllNodes { get; private set; } = new OrderedSet<IParseTree>();
+
+    public IParseTree RootNode => AllNodes.Single(x => x.Parent == null);
+
+    public IEnumerable<IParseTree> LeafNodes => AllNodes.Where(x => x.ChildCount == 0);
+
+    private IEnumerable<int> Depths => LeafNodes.Select(x => x.GetDepth());
+
+    public int MaxDepth => Depths.Max();
+
+    public int Length => Depths.Sum();
+
     private readonly string _sql;
 
     public Analyser(string sql)
@@ -15,7 +28,12 @@ namespace SQLComplexity
       _sql = sql;
     }
 
-    public ICollection<IParseTree> Analyse()
+    public void Analyse()
+    {
+      AllNodes = AnalyseInternal();
+    }
+
+    private ICollection<IParseTree> AnalyseInternal()
     {
       var listener = new TSqlParserListener();
       Parser.Parse(_sql, listener, SQLType.TSql);

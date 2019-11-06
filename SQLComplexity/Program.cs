@@ -21,23 +21,22 @@ namespace SQLComplexity
       var sw = Stopwatch.StartNew();
       var sql = File.ReadAllText(args[0]);
       var analyser = new Analyser(sql);
-      var allNodes = analyser.Analyse();
-      var leafNodes = allNodes.Where(x => x.ChildCount == 0);
-      var allDepths = leafNodes.Select(x => x.GetDepth());
-      var length = allDepths.Sum();
+      analyser.Analyse();
+      var allNodes = analyser.AllNodes;
+      var leafNodes = analyser.LeafNodes;
 
       foreach (var node in allNodes)
       {
-        var newDepth = (node as RuleContext)?.Depth() ?? node.GetDepth() + 1;
-        var padding = new string(' ', newDepth);
-        Console.WriteLine($"{padding} [{newDepth}@{node.GetType().Name}] {node}");
+        var nodeDepth = node.GetDepth() ;
+        var padding = new string(' ', nodeDepth);
+        Console.WriteLine($"{padding} [{nodeDepth}@{node.GetType().Name}] {node}");
       }
 
       Console.WriteLine($"Analysed [{args[0]}] in {sw.ElapsedMilliseconds} ms");
-      Console.WriteLine($"  MaxDepth   = {allDepths.Max()}");
-      Console.WriteLine($"  Height     = {allNodes.Count}");
+      Console.WriteLine($"  MaxDepth   = {analyser.MaxDepth}");
+      Console.WriteLine($"  Height     = {allNodes.Count()}");
       Console.WriteLine($"  Leaves     = {leafNodes.Count()}");
-      Console.WriteLine($"  Length     = {length}");
+      Console.WriteLine($"  Length     = {analyser.Length}");
     }
 
     private static void Usage()

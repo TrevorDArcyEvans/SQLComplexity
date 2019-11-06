@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using SQLParser.Enums;
@@ -31,23 +32,36 @@ namespace SQLComplexity
       //    https://en.wikipedia.org/wiki/Dense_graph
       //    https://www.quora.com/How-do-you-compute-the-density-of-a-weighted-graph
       var startNode = listener.EnterContext;
-      var maxDepth = 0;
-      var length = 0;
-      var leafNodes = new List<IParseTree>();
-      Dump(startNode.Depth(), ref maxDepth, ref length, leafNodes, startNode);
+      var allNodes = new HashSet<IParseTree>();
+      Dump(startNode.Depth(), allNodes, startNode);
       Console.WriteLine();
 
+      var leafNodes = allNodes.Where(x => x.ChildCount == 0);
+      var allDepths = leafNodes.Select(leafNode =>
+      {
+        var depth = 0;
+        var currNode = leafNode;
+        while (currNode != null)
+        {
+          depth++;
+          currNode = currNode.Parent;
+        }
+
+        return depth;
+      });
+      var length = allDepths.Sum();
+
       Console.WriteLine($"Analysed [{args[0]}] in {sw.ElapsedMilliseconds} ms");
-      Console.WriteLine($"  MaxDepth = {maxDepth}");
-      Console.WriteLine($"  Length   = {length}");
+      Console.WriteLine($"  MaxDepth   = {allDepths.Max()}");
+      Console.WriteLine($"  Height     = {allNodes.Count}");
+      Console.WriteLine($"  Length     = {length}");
+      Console.WriteLine($"  Leaves     = {leafNodes.Count()}");
     }
 
     // RuleContext : IParseTree, ISyntaxTree, ITree
     // TerminalNodeImpl : IParseTree, ISyntaxTree, ITree
     private static void Dump(int depth,
-      ref int maxDepth,
-      ref int length,
-      List<IParseTree> leafNodes,
+      ISet<IParseTree> allNodes,
       IParseTree node)
     {
       var newDepth = (node as RuleContext)?.Depth() ?? depth + 1;
@@ -57,17 +71,15 @@ namespace SQLComplexity
         Console.WriteLine($"{padding} [{newDepth}@{node.GetType().Name}] {node}");
       }
 
-      maxDepth = Math.Max(newDepth, maxDepth);
-      length++;
-      if (node.ChildCount == 0)
+      if (!allNodes.Contains(node))
       {
-        leafNodes.Add(node);
+        allNodes.Add(node);
       }
-
+      
       for (var i = 0; i < node.ChildCount; i++)
       {
         var child = node.GetChild(i);
-        Dump(newDepth, ref maxDepth, ref length, leafNodes, child);
+        Dump(newDepth, allNodes, child);
       }
     }
 

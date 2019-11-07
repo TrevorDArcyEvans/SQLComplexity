@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Antlr4.Runtime;
 
 namespace SQLComplexity
 {
@@ -25,18 +24,19 @@ namespace SQLComplexity
       var allNodes = analyser.AllNodes;
       var leafNodes = analyser.LeafNodes;
 
-      foreach (var node in allNodes)
+      foreach (var node in leafNodes)
       {
         var nodeDepth = node.GetDepth() ;
         var padding = new string(' ', nodeDepth);
-        Console.WriteLine($"{padding} [{nodeDepth}@{node.GetType().Name}] {node}");
+        Console.WriteLine($"{padding} [{nodeDepth}@{node.GetType().Name}] {node} ${analyser.GetWeightedCost(node):0}");
       }
 
       Console.WriteLine($"Analysed [{args[0]}] in {sw.ElapsedMilliseconds} ms");
-      Console.WriteLine($"  MaxDepth   = {analyser.MaxDepth}");
-      Console.WriteLine($"  Height     = {allNodes.Count()}");
-      Console.WriteLine($"  Leaves     = {leafNodes.Count()}");
-      Console.WriteLine($"  Length     = {analyser.Length}");
+      Console.WriteLine($"  MaxDepth           = {analyser.MaxDepth}");
+      Console.WriteLine($"  Height             = {allNodes.Count()}");
+      Console.WriteLine($"  Leaves             = {leafNodes.Count()}");
+      Console.WriteLine($"  TotalDepth         = {analyser.TotalDepth}");
+      Console.WriteLine($"  TotalWeightedCost  = ${analyser.TotalWeightedCost:0}");
     }
 
     private static void Usage()

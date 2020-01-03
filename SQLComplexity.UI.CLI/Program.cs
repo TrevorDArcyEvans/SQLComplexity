@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace SQLComplexity
+namespace SQLComplexity.UI.CLI
 {
   public static class Program
   {

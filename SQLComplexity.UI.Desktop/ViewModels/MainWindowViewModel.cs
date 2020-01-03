@@ -6,6 +6,9 @@ namespace SQLComplexity.UI.Desktop.ViewModels
 {
   public class MainWindowViewModel : ViewModelBase
   {
-    public string Greeting => "Hello World!";
+    private void CmdAnalyse_Click()
+    {
+      Console.WriteLine("CmdAnalyse_Click clicked!");
+    }
   }
 }

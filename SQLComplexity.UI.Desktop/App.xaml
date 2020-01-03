@@ -1,6 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui" 
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-  xmlns:local="clr-namespace:SQLComplexity.UI.Desktop" x:Class="SQLComplexity.UI.Desktop.App">
+  xmlns:local="clr-namespace:SQLComplexity.UI.Desktop" 
+  x:Class="SQLComplexity.UI.Desktop.App">
   <Application.DataTemplates>
     <local:ViewLocator/>
   </Application.DataTemplates>

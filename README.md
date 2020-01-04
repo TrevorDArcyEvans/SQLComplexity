@@ -1,4 +1,14 @@
 # SQL Complexity based on Abstract Syntax Tree density
+
+## Building
+```
+git clone https://github.com/TrevorDArcyEvans/SQLComplexity.git --recursive
+cd SQLComplexity
+dotnet restore
+dotnet build
+```
+
+## Background
 Based on ANTLR TSQL parser/lexer from:  
 https://github.com/JaCraig/SQLParser
 

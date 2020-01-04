@@ -298,3 +298,7 @@ Analytic_windowed_functionContext,1
 ANALYTIC_WINDOWED_FUNCContext,1
 Alter_db_roleContext,1
 Create_db_roleContext,1
+Alter_credentialContext,1
+Create_credentialContext,1
+Alter_fulltext_catalogContext,1
+Create_fulltext_catalogContext,1

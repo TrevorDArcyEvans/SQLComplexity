@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
@@ -10,6 +11,11 @@ namespace SQLComplexity.UI.Desktop.ViewModels
 {
   public class MainWindowViewModel : ViewModelBase
   {
+    public MainWindowViewModel()
+    {
+      this.PropertyChanged += TxtInput_Changed;
+    }
+
     private string _txtInput;
     public string TxtInput
     {
@@ -35,6 +41,7 @@ namespace SQLComplexity.UI.Desktop.ViewModels
         this.RaiseAndSetIfChanged(ref _txtOutput, value);
       }
     }
+
     private void CmdAnalyse_Click()
     {
       var sb = new StringBuilder();
@@ -62,6 +69,14 @@ namespace SQLComplexity.UI.Desktop.ViewModels
       sb.AppendLine($"  TotalWeightedCost  = ${analyser.TotalWeightedCost:0}");
 
       TxtOutput = sb.ToString();
+    }
+
+    private void TxtInput_Changed(object sender, PropertyChangedEventArgs args)
+    {
+      if (args.PropertyName == nameof(TxtInput))
+      {
+        TxtOutput = string.Empty;
+      }
     }
   }
 }

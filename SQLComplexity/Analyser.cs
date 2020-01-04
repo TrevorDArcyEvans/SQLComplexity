@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Reflection;
 using Antlr4.Runtime.Tree;
 using CsvHelper;
 using Gma.DataStructures;
@@ -37,7 +38,11 @@ namespace SQLComplexity
     {
       _sql = sql;
 
-      using (var reader = new StreamReader(WeightingsDataFilename))
+      var exeAssy = Assembly.GetExecutingAssembly();
+      var exeAssyPath = exeAssy.Location;
+      var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
+      var dataFilePath = Path.Combine(exeAssyDir, WeightingsDataFilename);
+      using (var reader = new StreamReader(dataFilePath))
       {
         using (var csv = new CsvReader(reader))
         {

@@ -302,3 +302,7 @@ Alter_credentialContext,1
 Create_credentialContext,1
 Alter_fulltext_catalogContext,1
 Create_fulltext_catalogContext,1
+Alter_sequenceContext,1
+Create_sequenceContext,1
+Alter_userContext,1
+Create_userContext,1

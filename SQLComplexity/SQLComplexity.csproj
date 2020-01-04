@@ -1,15 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\SQLParser\SQLParser\SQLParser.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SQLParser\SQLParser\SQLParser.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="CsvHelper" Version="12.2.3" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Update="Weightings.csv" 
+      CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" 
+      Version="12.2.3" />
+  </ItemGroup>
 
 </Project>

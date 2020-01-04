@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using Antlr4.Runtime.Tree;
+using CsvHelper;
 using Gma.DataStructures;
 using SQLParser;
 using SQLParser.Enums;
@@ -10,6 +12,8 @@ namespace SQLComplexity
 {
   public sealed class Analyser
   {
+    private const string WeightingsDataFilename = "Weightings.csv";
+
     public IEnumerable<IParseTree> AllNodes { get; private set; } = new OrderedSet<IParseTree>();
 
     public IParseTree RootNode => AllNodes.Single(x => x.Parent == null);
@@ -21,14 +25,25 @@ namespace SQLComplexity
     public int MaxDepth => Depths.Max();
 
     public int TotalDepth => Depths.Sum();
-    
+
     public double TotalWeightedCost => LeafNodes.Select(GetWeightedCost).Sum();
 
     private readonly string _sql;
 
+    private readonly Dictionary<string, double> _weightings;
+    private readonly HashSet<string> _missing = new HashSet<string>();
+
     public Analyser(string sql)
     {
       _sql = sql;
+
+      using (var reader = new StreamReader(WeightingsDataFilename))
+      {
+        using (var csv = new CsvReader(reader))
+        {
+          _weightings = csv.GetRecords<Weighting>().ToDictionary(x => x.Operation, x => x.Cost);
+        }
+      }
     }
 
     public void Analyse()
@@ -48,7 +63,7 @@ namespace SQLComplexity
       var startNode = listener.EnterContext;
       var allNodes = new OrderedSet<IParseTree>();
       Analyse(startNode, allNodes);
-
+      
       return allNodes;
     }
 
@@ -90,25 +105,27 @@ namespace SQLComplexity
       return Math.Pow(node.GetDepth(), 1.5);
     }
 
-    private static double GetDirectCost(IParseTree node)
+    private double GetDirectCost(IParseTree node)
     {
       return GetDirectCost(node.GetType());
     }
 
-    private static double GetDirectCost(Type node)
+    private double GetDirectCost(Type node)
     {
-      // TODO    get costs from a mapping [type] --> [cost]
-      switch (node.Name)
+      var name = node.Name;
+      if (_weightings.ContainsKey(name))
       {
-        case "Tsql_fileContext":
-        case "BatchContext":
-        case "TerminalNodeImpl":
-        case "ErrorNodeImpl":
-          return 0d;
-        
-        default:
-          return 1d;
+        return _weightings[name];
       }
+
+      if (!_missing.Contains(name))
+      {
+        _missing.Add(name);
+        Console.WriteLine(name);
+      }
+
+      return 1d;
     }
   }
 }
+

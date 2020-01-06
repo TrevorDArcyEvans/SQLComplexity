@@ -1,43 +1,48 @@
-<Window xmlns="https://github.com/avaloniaui" 
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-  xmlns:vm="clr-namespace:SQLComplexity.UI.Desktop.ViewModels;assembly=SQLComplexity.UI.Desktop" 
-  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-  mc:Ignorable="d" 
-  d:DesignWidth="800" 
-  d:DesignHeight="850" 
-  x:Class="SQLComplexity.UI.Desktop.Views.MainWindow" 
-  Icon="/Assets/avalonia-logo.ico" 
-  Title="SQLComplexity.UI.Desktop" 
-  Height="650" 
+<Window
+  xmlns="https://github.com/avaloniaui"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:vm="clr-namespace:SQLComplexity.UI.Desktop.ViewModels;assembly=SQLComplexity.UI.Desktop"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  mc:Ignorable="d"
+  d:DesignWidth="800"
+  d:DesignHeight="850"
+  x:Class="SQLComplexity.UI.Desktop.Views.MainWindow"
+  Icon="/Assets/avalonia-logo.ico"
+  Title="SQLComplexity.UI.Desktop"
+  Height="650"
   Width="800">
 
   <Design.DataContext>
-    <vm:MainWindowViewModel/>
+    <vm:MainWindowViewModel />
   </Design.DataContext>
 
-  <StackPanel Spacing="4">
-    <TextBox Text="{Binding Path=TxtInput}" 
-      FontFamily="Courier New" 
-      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-      ScrollViewer.VerticalScrollBarVisibility="Visible" 
-      Watermark="Enter SQL" 
-      AcceptsReturn="True" 
-      AcceptsTab="True" 
-      TextWrapping="Wrap" 
+  <StackPanel
+    Spacing="4">
+    <TextBox
+      Text="{Binding Path=TxtInput}"
+      FontFamily="Courier New"
+      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+      ScrollViewer.VerticalScrollBarVisibility="Visible"
+      Watermark="Enter SQL"
+      AcceptsReturn="True"
+      AcceptsTab="True"
+      TextWrapping="Wrap"
       Height="250" />
-    <TextBox Text="{Binding Path=TxtOutput}" 
-      FontFamily="Courier New" 
-      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-      ScrollViewer.VerticalScrollBarVisibility="Visible" 
-      IsReadOnly="True" 
-      AcceptsReturn="True" 
-      TextWrapping="Wrap" 
+    <TextBox
+      Text="{Binding Path=TxtOutput}"
+      FontFamily="Courier New"
+      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+      ScrollViewer.VerticalScrollBarVisibility="Visible"
+      IsReadOnly="True"
+      AcceptsReturn="True"
+      TextWrapping="Wrap"
       Height="350" />
-    <Button Command="{Binding CmdAnalyse_Click}" 
-      Content="Analyse" 
-      Width="150" 
-      Height="30" 
+    <Button
+      Command="{Binding CmdAnalyse_Click}"
+      Content="Analyse"
+      Width="150"
+      Height="30"
       HorizontalAlignment="Center" />
   </StackPanel>
 </Window>

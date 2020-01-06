@@ -17,8 +17,16 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
 
-  <StackPanel
-    Spacing="4">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
     <TextBox
       Text="{Binding Path=TxtInput}"
       FontFamily="Courier New"
@@ -28,7 +36,8 @@
       AcceptsReturn="True"
       AcceptsTab="True"
       TextWrapping="Wrap"
-      Height="250" />
+      Grid.Row="0"
+      Grid.ColumnSpan="2" />
     <TextBox
       Text="{Binding Path=TxtOutput}"
       FontFamily="Courier New"
@@ -37,12 +46,16 @@
       IsReadOnly="True"
       AcceptsReturn="True"
       TextWrapping="Wrap"
-      Height="350" />
+      Grid.Row="1"
+      Grid.ColumnSpan="2" />
     <Button
       Command="{Binding CmdAnalyse_Click}"
       Content="Analyse"
       Width="150"
       Height="30"
-      HorizontalAlignment="Center" />
-  </StackPanel>
+      HorizontalAlignment="Center"
+      Grid.Row="2"
+      Grid.Column="1"
+      Margin="5" />
+  </Grid>
 </Window>

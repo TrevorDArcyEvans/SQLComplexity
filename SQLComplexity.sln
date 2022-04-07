@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLComplexity", "SQLComplexity\SQLComplexity.csproj", "{D40DE9CE-D710-4378-BEAE-66940F4A4B6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLParser", "SQLParser\SQLParser\SQLParser.csproj", "{EA16448B-0E51-4280-B705-990A46E48389}"
@@ -8,6 +8,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLComplexity.UI.Desktop", "SQLComplexity.UI.Desktop\SQLComplexity.UI.Desktop.csproj", "{65FDCACC-A633-40AA-8D82-6C4926047D77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLComplexity.UI.CLI", "SQLComplexity.UI.CLI\SQLComplexity.UI.CLI.csproj", "{CFC8214F-3430-4C12-BFE7-D30E8B2B56FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLComplexity.UI.Web", "SQLComplexity.UI.Web\SQLComplexity.UI.Web.csproj", "{865CA7CD-03EA-4A5E-8719-D131E7BDADAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,5 +33,9 @@ Global
 		{CFC8214F-3430-4C12-BFE7-D30E8B2B56FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFC8214F-3430-4C12-BFE7-D30E8B2B56FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFC8214F-3430-4C12-BFE7-D30E8B2B56FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{865CA7CD-03EA-4A5E-8719-D131E7BDADAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{865CA7CD-03EA-4A5E-8719-D131E7BDADAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{865CA7CD-03EA-4A5E-8719-D131E7BDADAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{865CA7CD-03EA-4A5E-8719-D131E7BDADAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

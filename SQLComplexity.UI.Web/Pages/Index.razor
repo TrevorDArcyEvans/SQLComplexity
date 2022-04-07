@@ -1,0 +1,65 @@
+﻿@page "/"
+
+@using System.Reflection
+@using System.Text
+@using System.Diagnostics
+
+<PageTitle>SQL Complexity</PageTitle>
+
+<style>
+  #txtInput, #txtOutput
+  {
+    width: 100%;
+    height: 300px;
+    font-family: monospace;
+  }
+</style>
+
+<label for="txtInput">SQL:</label>
+<textarea @bind="TxtInput" id="txtInput"></textarea>
+<p/>
+<button @onclick="Analyse">Analyse</button>
+<hr/>
+
+<textarea @bind="TxtOutput" readonly id="txtOutput"></textarea>
+
+@code
+{
+  private string TxtInput { get; set; }
+  private string TxtOutput { get; set; }
+
+  private void Analyse()
+  {
+    const string WeightingsDataFilename = "SQLComplexity.UI.Web.Weightings.csv";
+
+    var sb = new StringBuilder();
+    sb.AppendLine($"Analysing ...");
+    TxtOutput = sb.ToString();
+    StateHasChanged();
+
+    var sw = Stopwatch.StartNew();
+    var assy = Assembly.GetExecutingAssembly();
+    var stream = assy.GetManifestResourceStream(WeightingsDataFilename);
+    var weightingsStream = new StreamReader(stream);
+    var analyser = new Analyser(TxtInput, weightingsStream);
+    analyser.Analyse();
+    var allNodes = analyser.AllNodes;
+    var leafNodes = analyser.LeafNodes;
+
+    foreach (var node in leafNodes)
+    {
+      var nodeDepth = node.GetDepth();
+      var padding = new string(' ', nodeDepth);
+      sb.AppendLine($"{padding} [{nodeDepth}@{node.GetType().Name}] {node} ${analyser.GetWeightedCost(node):0}");
+    }
+
+    sb.AppendLine($"Analysed in {sw.ElapsedMilliseconds} ms");
+    sb.AppendLine($"  MaxDepth           = {analyser.MaxDepth}");
+    sb.AppendLine($"  Height             = {allNodes.Count()}");
+    sb.AppendLine($"  Leaves             = {leafNodes.Count()}");
+    sb.AppendLine($"  TotalDepth         = {analyser.TotalDepth}");
+    sb.AppendLine($"  TotalWeightedCost  = ${analyser.TotalWeightedCost:0}");
+
+    TxtOutput = sb.ToString();
+  }
+}

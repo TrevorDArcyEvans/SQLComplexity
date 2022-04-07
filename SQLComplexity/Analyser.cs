@@ -32,9 +32,15 @@ namespace SQLComplexity
     private readonly string _sql;
 
     private readonly Dictionary<string, double> _weightings;
-    private readonly HashSet<string> _missing = new HashSet<string>();
+    private readonly HashSet<string> _missing = new();
 
-    public Analyser(string sql)
+    public Analyser(string sql, TextReader tr)
+    {
+      _sql = sql;
+      _weightings = GetWeightings(tr);
+    }
+
+    public Analyser(string sql, string weightingsFilePath = WeightingsDataFilename)
     {
       _sql = sql;
 
@@ -42,13 +48,8 @@ namespace SQLComplexity
       var exeAssyPath = exeAssy.Location;
       var exeAssyDir = Path.GetDirectoryName(exeAssyPath);
       var dataFilePath = Path.Combine(exeAssyDir, WeightingsDataFilename);
-      using (var reader = new StreamReader(dataFilePath))
-      {
-        using (var csv = new CsvReader(reader))
-        {
-          _weightings = csv.GetRecords<Weighting>().ToDictionary(x => x.Operation, x => x.Cost);
-        }
-      }
+      using var reader = new StreamReader(dataFilePath);
+      _weightings = GetWeightings(reader);
     }
 
     public void Analyse()
@@ -68,7 +69,7 @@ namespace SQLComplexity
       var startNode = listener.EnterContext;
       var allNodes = new OrderedSet<IParseTree>();
       Analyse(startNode, allNodes);
-      
+
       return allNodes;
     }
 
@@ -88,6 +89,12 @@ namespace SQLComplexity
         var child = node.GetChild(i);
         Analyse(child, allNodes);
       }
+    }
+
+    private static Dictionary<string, double> GetWeightings(TextReader tr)
+    {
+      using var csv = new CsvReader(tr);
+      return csv.GetRecords<Weighting>().ToDictionary(x => x.Operation, x => x.Cost);
     }
 
     public double GetWeightedCost(IParseTree node)
@@ -133,4 +140,3 @@ namespace SQLComplexity
     }
   }
 }
-

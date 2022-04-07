@@ -18,7 +18,7 @@
 <label for="txtInput">SQL:</label>
 <textarea @bind="TxtInput" id="txtInput"></textarea>
 <p/>
-<button @onclick="Analyse">Analyse</button>
+<button @onclick="@(async () => await Analyse())">Analyse</button>
 <hr/>
 
 <textarea @bind="TxtOutput" readonly id="txtOutput"></textarea>
@@ -28,7 +28,7 @@
   private string TxtInput { get; set; }
   private string TxtOutput { get; set; }
 
-  private void Analyse()
+  private async Task Analyse()
   {
     const string WeightingsDataFilename = "SQLComplexity.UI.Web.Weightings.csv";
 
@@ -42,7 +42,7 @@
     var stream = assy.GetManifestResourceStream(WeightingsDataFilename);
     var weightingsStream = new StreamReader(stream);
     var analyser = new Analyser(TxtInput, weightingsStream);
-    analyser.Analyse();
+    await Task.Run(() => analyser.Analyse());
     var allNodes = analyser.AllNodes;
     var leafNodes = analyser.LeafNodes;
 

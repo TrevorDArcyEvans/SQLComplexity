@@ -19,6 +19,13 @@ which should run on:
 
 ![Screenshot02](Docs/Screenshot02.png "Screenshot02")
 
+### Web
+A webassembly version is provided:
+
+![Screenshot03](Docs/Screenshot03.png "Screenshot03")
+
+which should run on all major browsers
+
 ### Commandline
 A cross-platform desktop client is provided:
 

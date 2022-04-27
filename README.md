@@ -3,6 +3,9 @@
 ## Description
 A novel way to identify _complexity_ in your SQL queries by analysing the _abstract syntax tree_
 
+## Demo
+[SQLComplexity](https://trevordarcyevans.github.io/SQLComplexity/)
+
 ## User Interfaces
 
 ### Desktop
